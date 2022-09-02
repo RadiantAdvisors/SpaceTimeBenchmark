@@ -1,0 +1,29 @@
+	drop table if exists MAX_TEMP_10m;
+	
+	create table MAX_TEMP_10m as
+	SELECT MAX(airtemp) as MAX_TEMP,tr.starttime st_time FROM temperature te, bikeTrips10m tr
+	where te.dt >= (tr.starttime - INTERVAL '1 hour') and te.dt <= (tr.starttime + INTERVAL '1 hour')
+	group by tr.starttime;
+
+	create index MAX_TEMP_idx10m on MAX_TEMP_10m(max_temp);
+	create index st_time_idx10m on MAX_TEMP_10m(st_time);
+
+	drop table if exists MAX_TEMP_50m;
+	
+	create table MAX_TEMP_50m as
+	SELECT MAX(airtemp) as MAX_TEMP,tr.starttime st_time FROM temperature te, bikeTrips50m tr
+	where te.dt >= (tr.starttime - INTERVAL '1 hour') and te.dt <= (tr.starttime + INTERVAL '1 hour')
+	group by tr.starttime;
+
+	create index MAX_TEMP_idx50m on MAX_TEMP_50m(max_temp);
+	create index st_time_idx50m on MAX_TEMP_50m(st_time);
+	
+	drop table if exists MAX_TEMP_100m;
+	create table MAX_TEMP_100m as
+	SELECT MAX(airtemp) as MAX_TEMP,tr.starttime st_time FROM temperature te, bikeTrips100m tr
+	where te.dt >= (tr.starttime - INTERVAL '1 hour') and te.dt <= (tr.starttime + INTERVAL '1 hour')
+	group by tr.starttime;
+
+	create index MAX_TEMP_idx100m on MAX_TEMP_100m(max_temp);
+	create index st_time_idx100m on MAX_TEMP_100m(st_time);
+
